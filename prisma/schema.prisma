@@ -1,0 +1,34 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  schemas  = ["app_core", "public"]
+}
+
+model photo {
+  image_id        String  @id(map: "photos_pkey") @db.VarChar(50)
+  url             String
+  landmark_id     BigInt?
+  index_level_0__ BigInt? @map("__index_level_0__")
+  place           place?  @relation(fields: [landmark_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "fk_landmark")
+
+  @@index([landmark_id], map: "idx_photos_landmark_id")
+  @@schema("app_core")
+}
+
+model place {
+  id            BigInt  @id(map: "places_pkey")
+  category_name String?
+  name          String?
+  lat           Float?
+  lon           Float?
+  city          String?
+  state         String?
+  country       String?
+  photo         photo[]
+
+  @@schema("app_core")
+}

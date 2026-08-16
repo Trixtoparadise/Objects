@@ -1,0 +1,1 @@
+-- Baseline migration: Tables manually initialized via pgAdmin 4 CSV imports.

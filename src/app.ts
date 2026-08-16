@@ -1,9 +1,19 @@
-import express, { type Express, type Request, type Response } from 'express';
+import 'dotenv/config';
+import express, {type Express} from 'express';
+import landmark_router from './routes/landmark_routes.ts';
 
 const app: Express = express();
 
-app.get('/', (req: Request, res: Response) => {
-    res.send('Hello World!');
-});
+app.use(express.json());
 
-app.listen(3000);
+(BigInt.prototype as any).toJSON = function () {
+    return this.toString()
+};
+
+app.use('/api', landmark_router);
+
+const PORT = process.env.PORT || 3000;
+
+app.listen(PORT, () => {
+    console.log(`Server executing live parameters on port ${PORT}`);
+});
